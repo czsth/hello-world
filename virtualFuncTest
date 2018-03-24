@@ -4,14 +4,18 @@ using namespace std;
 
 class Animal
 {
-	double AP;
+	double AP, HP;
 	string name;
 public:
-	void setAP(double aAP = 0){
+	void setAP(double aAP = 1){
 		AP = aAP;
 	}
-	void virtual attack(){
-		cout << getName() << " - " << getAP() << "!" << endl;
+	void setHP(double aHP = 100){
+		HP = aHP;
+	}
+	void virtual attack(Animal * victim){
+		victim.getHP() -= getAP();
+		cout << getName() << " -> " << victim.getName() << "  " << getAP() << "!" << endl;
 	}
 	double getAP(){
 		return AP;
@@ -19,13 +23,17 @@ public:
 	string & getName(){
 		return name;
 	}
+	double & getHP(){
+		return HP;
+	}
 };
 
 class Dog : public Animal
 {
 public:
-	Dog(double aAP){
-		setAP(aAP);
+	Dog(double aHP, double aAP){
+		setAP(aHP);
+		setHP(aAP);
 		getName() = "Dog";
 	}
 	// void attack(){
@@ -36,7 +44,8 @@ public:
 class BK : public Animal
 {
 public:
-	BK(double aAP){
+	BK(double aHP, double aAP){
+		setHP(aHP);
 		setAP(aAP);
 		getName() = "BK";
 	}
@@ -45,16 +54,31 @@ public:
 	// }
 };
 
+class Court
+{
+	Animal * p1, p2;
+public:
+	Court(Animal * aP1, Animal * aP2){
+		p1 = aP1, p2 = aP2;
+	}
+	void fight(){
+		for(int i = 1; p1.getHP() && p2.getHP(); i++){
+			cout << "Round " << i << " :" << endl;
+			p1.attack(p2);
+			p2.attack(p1);
+			cout << p1.getName() << "-" << p1.getHP() << "\t" 
+			<< p2.getName() << "-" << p2.getHP() << endl;
+		}
+	}
+};
+
 int main(int argc, char const *argv[])
 {
-	BK bk(50);
-	Dog dog(60);
+	BK bk(5);
+	Dog dog(6);
 
-	Animal * a1 = &bk;
-	Animal * a2 = &dog;
-
-	a1->attack();
-	a2->attack();
+	Court court(&bk, &dog);
+	court.fight();
 
 	return 0;
 }
