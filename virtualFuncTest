@@ -1,16 +1,23 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 class Animal
 {
 	double AP;
+	string name;
 public:
-	void setAP(double aAP){
+	void setAP(double aAP = 0){
 		AP = aAP;
 	}
-	void virtual attack() = 0;
+	void virtual attack(){
+		cout << getName() << " - " << getAP() << "!" << endl;
+	}
 	double getAP(){
 		return AP;
+	}
+	string & getName(){
+		return name;
 	}
 };
 
@@ -19,10 +26,11 @@ class Dog : public Animal
 public:
 	Dog(double aAP){
 		setAP(aAP);
+		getName() = "Dog";
 	}
-	void attack(){
-		cout << "Dog - " << getAP() << " !" << endl;
-	}
+	// void attack(){
+	// 	cout << "Dog - " << getAP() << " !" << endl;
+	// }
 };
 
 class BK : public Animal
@@ -30,10 +38,11 @@ class BK : public Animal
 public:
 	BK(double aAP){
 		setAP(aAP);
+		getName() = "BK";
 	}
-	void attack(){
-		cout << "BK - " << getAP() << " !" << endl;
-	}
+	// void attack(){
+	// 	cout << "BK - " << getAP() << " !" << endl;
+	// }
 };
 
 int main(int argc, char const *argv[])
