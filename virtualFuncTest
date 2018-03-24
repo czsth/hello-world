@@ -14,8 +14,8 @@ public:
 		HP = aHP;
 	}
 	void virtual attack(Animal * victim){
-		victim.getHP() -= getAP();
-		cout << getName() << " -> " << victim.getName() << "  " << getAP() << "!" << endl;
+		victim->getHP() -= this->getAP();
+		cout << getName() << " -> " << victim->getName() << "  " << getAP() << "!" << endl;
 	}
 	double getAP(){
 		return AP;
@@ -26,14 +26,17 @@ public:
 	double & getHP(){
 		return HP;
 	}
+	void virtual die(){
+		cout << getName() << " KO" << endl;
+	}
 };
 
 class Dog : public Animal
 {
 public:
-	Dog(double aHP, double aAP){
-		setAP(aHP);
-		setHP(aAP);
+	Dog(){
+		setHP(120);
+		setAP(25);
 		getName() = "Dog";
 	}
 	// void attack(){
@@ -44,9 +47,9 @@ public:
 class BK : public Animal
 {
 public:
-	BK(double aHP, double aAP){
-		setHP(aHP);
-		setAP(aAP);
+	BK(){
+		setHP(150);
+		setAP(20);
 		getName() = "BK";
 	}
 	// void attack(){
@@ -56,26 +59,50 @@ public:
 
 class Court
 {
-	Animal * p1, p2;
+	Animal *p1, *p2;
+	Animal *winner;
 public:
 	Court(Animal * aP1, Animal * aP2){
 		p1 = aP1, p2 = aP2;
 	}
-	void fight(){
-		for(int i = 1; p1.getHP() && p2.getHP(); i++){
-			cout << "Round " << i << " :" << endl;
-			p1.attack(p2);
-			p2.attack(p1);
-			cout << p1.getName() << "-" << p1.getHP() << "\t" 
-			<< p2.getName() << "-" << p2.getHP() << endl;
+	void printIntroduction(Animal * player1, Animal * player2){
+		Animal * player[2] = {player1, player2};
+		for(int i = 0; i < 2; i++){
+			cout << "Player " << i + 1 << " : " << player[i]->getName() << endl;
+			cout << "\t" << "HP : " << player[i]->getHP() << endl;
+			cout << "\t" << "AP : " << player[i]->getAP() << endl;
+			cout << endl;
 		}
+		cout << "GAME START!!!!!" << endl << endl;
+	}
+	void fight(){
+		printIntroduction(p1, p2);
+		for(int i = 1; p1->getHP() > 0 && p2->getHP() > 0; i++){
+			cout << "Round " << i << " :" << endl;
+			p1->attack(p2);
+			if(p2->getHP() > 0){
+				p2->attack(p1);
+			}
+			cout << p1->getName() << "-" << p1->getHP() << "\t" 
+			<< p2->getName() << "-" << p2->getHP() << endl;
+			cout << "------------------------" << endl;
+		}
+		if(p1->getHP() <= 0){
+			p1->die();
+			winner = p2;
+		}
+		if(p2->getHP() <= 0){
+			p2->die();
+			winner = p1;
+		}
+		cout << "The Winner Is : " << winner->getName() << endl;
 	}
 };
 
 int main(int argc, char const *argv[])
 {
-	BK bk(5);
-	Dog dog(6);
+	BK bk;
+	Dog dog;
 
 	Court court(&bk, &dog);
 	court.fight();
