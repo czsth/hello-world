@@ -1,0 +1,51 @@
+#include <iostream>
+using namespace std;
+
+class Animal
+{
+	double AP;
+public:
+	void setAP(double aAP){
+		AP = aAP;
+	}
+	void virtual attack() = 0;
+	double getAP(){
+		return AP;
+	}
+};
+
+class Dog : public Animal
+{
+public:
+	Dog(double aAP){
+		setAP(aAP);
+	}
+	void attack(){
+		cout << "Dog - " << getAP() << " !" << endl;
+	}
+};
+
+class BK : public Animal
+{
+public:
+	BK(double aAP){
+		setAP(aAP);
+	}
+	void attack(){
+		cout << "BK - " << getAP() << " !" << endl;
+	}
+};
+
+int main(int argc, char const *argv[])
+{
+	BK bk(50);
+	Dog dog(60);
+
+	Animal * a1 = &bk;
+	Animal * a2 = &dog;
+
+	a1->attack();
+	a2->attack();
+
+	return 0;
+}
