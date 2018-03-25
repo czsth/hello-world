@@ -39,9 +39,6 @@ public:
 		setAP(25);
 		getName() = "Dog";
 	}
-	// void attack(){
-	// 	cout << "Dog - " << getAP() << " !" << endl;
-	// }
 };
 
 class BK : public Animal
@@ -52,9 +49,6 @@ public:
 		setAP(20);
 		getName() = "BK";
 	}
-	// void attack(){
-	// 	cout << "BK - " << getAP() << " !" << endl;
-	// }
 };
 
 class Court
